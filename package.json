@@ -1,0 +1,33 @@
+{
+  "name": "query-manager",
+  "version": "1.0.0",
+  "description": "Server side sql scripts management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "keywords": [
+    "sql",
+    "script",
+    "manager",
+    "simple",
+    "inmemory"
+  ],
+  "author": "Jacek Mankowski <it.developer.1992@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "read-file": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "sinon": "^1.17.4"
+  }
+}

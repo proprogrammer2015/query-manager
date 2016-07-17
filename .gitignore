@@ -1,0 +1,11 @@
+# Node modules
+
+node_modules/
+
+# Code coverage
+
+coverage/
+
+# Debug
+
+*debug*
