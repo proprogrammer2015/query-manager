@@ -37,6 +37,9 @@ SELECT * FROM users;
 --[getAllActive]
 SELECT * FROM users WHERE active = 1;
 
+--[getAllBanned]
+SELECT * FROM users WHERE banned = 1;
+
 
 --<apps>
 --[getAll]
@@ -61,12 +64,23 @@ var files = [
 
 queryManager.load( files );
 
-var query = queryManager.get('users.getAll'); // SELECT * FROM users;
-var query1 = queryManager.get('apps.getAll'); // SELECT * FROM apps;
+var query1 = queryManager.get('users.getAll'); // SELECT * FROM users;
+var query2 = queryManager.get('users.getAllActive'); // SELECT * FROM users WHERE active = 1;
+var query2 = queryManager.get('users.getAllBanned'); // SELECT * FROM users WHERE banned = 1;
+var query3 = queryManager.get('apps.getAll'); // SELECT * FROM apps;
+// and so on...
 ```
 
 # ToDo:
 - add simple config object during init
+- add handling nasted comments of: (this makes an error)
+```sql
+/*
+
+--[someMethod]
+
+*/
+```
 
 # LICENCE
 MIT
