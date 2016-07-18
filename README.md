@@ -23,6 +23,29 @@ npm run coverage
 # !!! Warn
 Be careful with comments. Comments need to apply SQL parser rules.
 
+# Markups
+Following markups are REQUIRED!
+
+* Grouping alias
+```sql
+--<my_grouping_alias>
+```
+* Query alias:
+```sql
+--[my_query_alias]
+```
+
+# Exceptions
+If you create such sql file content:
+```sql
+--<users>
+/*
+--[getAll]
+*/
+// some query here...
+``
+you will get undefined value of "users.getAll" becasue tag --[getAll] is commented out by multiline comment /**/.
+
 # Assume that:
 * './path/to/sql/file1.sql' contains:
 ```sql
@@ -45,6 +68,11 @@ SELECT * FROM users WHERE banned = 1;
 --[getAll]
 SELECT *
 FROM apps
+;
+--[getSthElse]
+SELECT *
+FROM apps
+WHERE sth = 123
 ;
 
 ```
