@@ -1,8 +1,9 @@
 # SQL query manager
-* lightweight node module
+* new simple API
+* fast, lightweight node module
 * shortcut for queries
 * caching queries
-* simple API
+* customizable queries
 * well tested with Chai and Sinon
 
 # Installation
@@ -13,101 +14,101 @@ npm install query-manager
 # Run tests
 Run tests typing in terminal:
 ```sh
-mocha
+npm run test
 ```
 or run code coverage typing:
 ```sh
 npm run coverage
 ```
 
-# !!! Warn
-Be careful with comments. Comments need to apply SQL parser rules.
-
 # Markups
-Following markups are REQUIRED!
-
-* Grouping alias
+Put query identifier between @ signs.
+* Example 'file1.sql'
 ```sql
---<my_grouping_alias>
-```
-* Query alias:
-```sql
---[my_query_alias]
-```
-
-# Exceptions
-If you create such sql file content:
-```sql
---<users>
-/*
---[getAll]
-*/
-// some query here...
-``
-you will get undefined value of "users.getAll" becasue tag --[getAll] is commented out by multiline comment /**/.
-
-# Assume that:
-* './path/to/sql/file1.sql' contains:
-```sql
---<users>
-/* Get all users */
---[getAll]
+--@users.getAll@
 SELECT * FROM users;
 
+--    @   users.getAllActive   @
+SELECT * 
+FROM users
+WHERE active = 1
+;
+
+#   @users.getBanned @ 
+
+# Some other comment here
+-- another comment 
+SELECT * 
+FROM users
+WHERE banned = 1
+;
+/* This is very important comment here! */
+
+/*  @ users.getLastLogin   @ */
+SELECT last_login 
+FROM users
+WHERE user_id = 234
+;
+
+
 /*
-  Get all active users
+@  
+apps.getAllApps  
+@
 */
---[getAllActive]
-SELECT * FROM users WHERE active = 1;
-
---[getAllBanned]
-SELECT * FROM users WHERE banned = 1;
-
-
---<apps>
---[getAll]
 SELECT *
 FROM apps
 ;
---[getSthElse]
+# @user.getUserProfile@
 SELECT *
-FROM apps
-WHERE sth = 123
+FROM profiles
+WHERE id = {user_id}
+;
+/*
+-- @ users.getFields @
+*/
+SELECT {field1}, {field2}
+FROM users
 ;
 
+
+/*
+# @someUniqueId @
+*/
+SELECT * 
+FROM some_table
+;
+
+/* --@anotherUniqueId@ */
+-- this is sample comment
+SELECT *
+FROM some_table
+WHERE id = 3;
 ```
-
 
 
 # Example:
 To get query just run:
 ```js
-var queryManager = require('query-manager')();
+var queryManager = require('query-manager');
 var files = [
-  './path/to/sql/file1.sql',
-  './path/to/sql/file2.sql',
-  './path/to/sql/file3.sql',
-  './path/to/sql/file4.sql'
+  'file1.sql'
 ];
 
-queryManager.load( files );
+queryManager.add( files );
 
-var query1 = queryManager.get('users.getAll'); // SELECT * FROM users;
-var query2 = queryManager.get('users.getAllActive'); // SELECT * FROM users WHERE active = 1;
-var query2 = queryManager.get('users.getAllBanned'); // SELECT * FROM users WHERE banned = 1;
-var query3 = queryManager.get('apps.getAll'); // SELECT * FROM apps;
+var query1 = qm.get('users.getAll'); // SELECT * FROM users;
+var query2 = qm.get('users.getAllActive'); // SELECT * FROM users WHERE active = 1 ;
+var query3 = qm.get('apps.getAllApps'); // SELECT * FROM apps ;
+
+// with placeholders inside query
+var options1 = { user_id: 123 };
+var query1 = qm.get('user.getUserProfile', options1); // SELECT * FROM profiles WHERE id = 123 ;
+
+var options2 = {field1: 'first_name', field2: 'last_name'}; 
+var query2 = qm.get('users.getFields', options2); // SELECT first_name, last_name FROM users ;
+
 // and so on...
-```
-
-# ToDo:
-- add simple config object during init
-- add handling nasted comments of: (this makes an error)
-```sql
-/*
-
---[someMethod]
-
-*/
 ```
 
 # LICENCE
