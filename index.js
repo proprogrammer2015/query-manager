@@ -26,7 +26,10 @@ function add(files) {
     files.forEach(function (filePath, index) {
         isStr = _.isString(filePath);
         if (!isStr)
-            throw new Error('Unexpected file path at index ' + index);
+            throw new Error('#add(String|Array): Unexpected file path at index ' + index);
+        isEmpty = !filePath.trim().length;
+        if (isEmpty)
+            throw new Error('#add(String|Array): Path cannot be an empty string at index ' + index);
 
         parseFile(filePath);
     });
@@ -34,7 +37,7 @@ function add(files) {
 
 function parseFile(filePath) {
     var config = {
-      encoding: 'utf8'
+        encoding: 'utf8'
     };
     var sqlText = requireSQL.sync(filePath, config);
     var regExp = /(?:@)[\s\n]*([a-zA-Z]+\.?[a-zA-Z]+)[\s\n]*(?:@)(?:\n|\*\/|\s)*([^;]*)/g;
@@ -54,10 +57,10 @@ function get(key, options) {
         throw new Error('#get(String, Object): ' + key + ' key does not exist.');
 
     //console.log("query:", query, "opts:", options);
-    if(options)
+    if (options)
         return format(query, options);
     return query;
- }
+}
 
 module.exports = {
     add: add,

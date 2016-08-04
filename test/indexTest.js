@@ -53,6 +53,15 @@ describe('query-manager', function () {
             expect(test).to.not.throw(Error);
         });
 
+        it('should throw an error when empty string path passed', function () {
+            var sqlFiles = [''];
+            var test = function () {
+                qm.add(sqlFiles);
+            };
+            expect(test).to.throw(Error);
+            expect(test).to.throw(/Path cannot be an empty string at index 0/);
+        });
+
         it('should not throw an error while string passed', function () {
             var sqlFile = './test/sqlFile1.sql';
 
@@ -110,7 +119,7 @@ describe('query-manager', function () {
             var options1 = { user_id: 123 };
             var query1 = qm.get('user.getUserProfile', options1);
 
-            var options2 = {field1: 'first_name', field2: 'last_name'};
+            var options2 = { field1: 'first_name', field2: 'last_name' };
             var query2 = qm.get('users.getFields', options2);
 
             expect(query1).to.equal('SELECT * FROM profiles WHERE id = 123 ;');
