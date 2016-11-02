@@ -91,6 +91,7 @@ describe('query-manager', function () {
             var query4 = qm.get('users.getAllMyApps');
             var query5 = qm.get('someUniqueId');
             var query6 = qm.get('anotherUniqueId');
+            var query7 = qm.get('some_table.getSomething');
 
             expect(query1).to.be.equal('SELECT * FROM users;');
             expect(query2).to.be.equal('SELECT * FROM users WHERE active = 1 ;');
@@ -98,6 +99,7 @@ describe('query-manager', function () {
             expect(query4).to.be.equal('SELECT * FROM user_apps WHERE user_id = 234 ;');
             expect(query5).to.be.equal('SELECT * FROM some_table ;');
             expect(query6).to.be.equal(' SELECT * FROM some_table WHERE id = 3;');
+            expect(query7).to.be.equal('SELECT * FROM some_table WHERE id = 23 ;');
         });
 
         it('should throw error when key not found', function () {

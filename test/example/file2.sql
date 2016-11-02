@@ -20,3 +20,9 @@ FROM some_table
 SELECT *
 FROM some_table
 WHERE id = 3;
+
+/* -- @some_table.getSomething@ */
+SELECT *
+FROM some_table
+WHERE id = 23
+;

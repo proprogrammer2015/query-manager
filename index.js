@@ -40,7 +40,7 @@ function parseFile(filePath) {
         encoding: 'utf8'
     };
     var sqlText = requireSQL.sync(filePath, config);
-    var regExp = /(?:@)[\s\n]*([a-zA-Z]+\.?[a-zA-Z]+)[\s\n]*(?:@)(?:\n|\*\/|\s)*([^;]*)/g;
+    var regExp = /(?:@)[\s\n]*([a-zA-Z_]+\.?[a-zA-Z]+)[\s\n]*(?:@)(?:\n|\*\/|\s)*([^;]*)/g;
     var result = null;
 
     var deleteComments = /(?:#{1,}.*)|(?:-{2,}.*)|(?:(?:(\/\*)+?[\w\W]+?(\*\/)+))/g;
