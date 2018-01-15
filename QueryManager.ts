@@ -10,7 +10,7 @@ export class QueryManager {
         this.queries = this.parse(templates);
     }
 
-    public get(key: string, options?: object) {
+    public get(key: string, options?: object): string {
         let query = _.get(this.queries, key);
 
         if (!query)
@@ -22,12 +22,12 @@ export class QueryManager {
         return query;
     }
 
-    public add(templates: string | Array<string>) {
+    public add(templates: string | Array<string>): void {
         let newQueries = this.parse(templates);
         this.queries = _.merge({}, this.queries, newQueries);
     }
 
-    private parse(templates: string | Array<string>) {
+    private parse(templates: string | Array<string>): object {
         this.throwInvalidArguments(templates);
 
         if (_.isString(templates)) {
@@ -49,7 +49,7 @@ export class QueryManager {
         }, {});
     }
 
-    private throwInvalidArguments(templates: string | Array<string>) {
+    private throwInvalidArguments(templates: string | Array<string>): void {
         if (_.isNil(templates)) {
             throw new Error('InvalidArgument: templates cannot be null!');
         }
