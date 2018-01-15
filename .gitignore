@@ -1,6 +1,7 @@
 # Node modules
 
-node_modules/
+node_modules
+example/node_modules
 
 # Code coverage
 

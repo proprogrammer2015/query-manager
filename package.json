@@ -4,8 +4,11 @@
   "description": "Server side sql scripts management.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec"
+    "test": "npm run tsc && mocha",
+    "test:dev": "mocha -w",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec",
+    "tsc": "./node_modules/.bin/tsc",
+    "tsc:watch": "npm run tsc -- -w"
   },
   "repository": {
     "type": "git",
@@ -26,9 +29,14 @@
     "string-template": "^1.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.0",
+    "@types/lodash": "^4.14.92",
+    "@types/mocha": "^2.2.46",
+    "@types/string-template": "^1.0.2",
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
     "mocha": "^2.5.3",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "typescript": "^2.6.2"
   }
 }

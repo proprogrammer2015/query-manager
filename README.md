@@ -4,7 +4,8 @@
 * shortcut for queries
 * caching queries
 * customizable queries
-* well tested with Chai and Sinon
+* well tested with Chai
+* Typescript support
 
 # Installation
 ```sh
@@ -34,9 +35,8 @@ FROM users
 WHERE active = 1
 ;
 
-#   @users.getBanned @ 
-
-# Some other comment here
+--   @users.getBanned @ 
+-- Some other comment here
 -- another comment 
 SELECT * 
 FROM users
@@ -50,16 +50,11 @@ FROM users
 WHERE user_id = 234
 ;
 
-
 /*
-@  
-apps.getAllApps  
-@
-*/
-SELECT *
-FROM apps
-;
-# @user.getUserProfile@
+This query returns user profile.
+ @users.getUserProfile@
+
+ */
 SELECT *
 FROM profiles
 WHERE id = {user_id}
@@ -69,46 +64,49 @@ WHERE id = {user_id}
 */
 SELECT {field1}, {field2}
 FROM users
+WHERE email='{email_value}'
 ;
-
-
-/*
-# @someUniqueId @
-*/
-SELECT * 
-FROM some_table
-;
-
-/* --@anotherUniqueId@ */
--- this is sample comment
-SELECT *
-FROM some_table
-WHERE id = 3;
 ```
 
+# Live example
+1. Go to /example directory. There is example.js script that shows usage of query-manager module.
+2. Install dependencies with
+```sh
+npm install
+```
+3. Then run script with node
+```sh
+node example.js
+```
 
-# Example:
-To get query just run:
+# Example snippet
 ```js
-var qm = require('query-manager');
-var files = [
-  'file1.sql'
-];
+var { QueryManager } = require('./../index.js');
+var readFile = require('read-file');
 
-qm.add( files );
+var sqlTemplates = [
+    './file1.sql',
+    './file2.sql'
+].map(function (filePath) {
+    return readFile.sync(filePath, { encoding: 'utf8' });
+});
 
-var query1 = qm.get('users.getAll'); // SELECT * FROM users;
-var query2 = qm.get('users.getAllActive'); // SELECT * FROM users WHERE active = 1 ;
-var query3 = qm.get('apps.getAllApps'); // SELECT * FROM apps ;
+var qm = new QueryManager(sqlTemplates);
 
-// with placeholders inside query
-var options1 = { user_id: 123 };
-var query1 = qm.get('user.getUserProfile', options1); // SELECT * FROM profiles WHERE id = 123 ;
+console.log(qm.get('users.getAll')); // SELECT * FROM users;
+console.log(qm.get('users.getLastLogin')); // SELECT last_login FROM users WHERE user_id = 234;
 
-var options2 = {field1: 'first_name', field2: 'last_name'}; 
-var query2 = qm.get('users.getFields', options2); // SELECT first_name, last_name FROM users ;
+var userProfileOptions = {
+    user_id: 345
+};
+console.log(qm.get('users.getUserProfile', userProfileOptions)); // SELECT * FROM profiles WHERE id = 345;
 
-// and so on...
+var userFieldsOptions = {
+    field1: 'username',
+    field2: 'email',
+    email_value: 'john.doe@mail.com'
+};
+console.log(qm.get('users.getFields', userFieldsOptions)); // SELECT username, email FROM users WHERE email='john.doe@mail.com';
 ```
 
 # LICENCE
