@@ -29,7 +29,8 @@ var QueryManager = /** @class */ (function () {
         return templates.reduce(function (queries, template) {
             var result = null;
             while (result = _this.extractIdAndQueryTemplate.exec(template)) {
-                var input = result[0], key = result[1], sqlRawTemplate = result[2];
+                var key = result[1];
+                var sqlRawTemplate = result[2];
                 var sqlTemplate = sqlRawTemplate
                     .replace(_this.deleteComments, '')
                     .replace(/\s*\n\s*/g, ' ');

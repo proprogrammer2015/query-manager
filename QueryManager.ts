@@ -37,7 +37,8 @@ export class QueryManager {
         return templates.reduce((queries: any, template: string) => {
             let result = null;
             while (result = this.extractIdAndQueryTemplate.exec(template)) {
-                let [input, key, sqlRawTemplate] = result;
+                let key = result[1];
+                let sqlRawTemplate = result[2];
                 let sqlTemplate = sqlRawTemplate
                     .replace(this.deleteComments, '')
                     .replace(/\s*\n\s*/g, ' ');
