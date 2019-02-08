@@ -24,13 +24,13 @@
   "author": "Jacek Mankowski <it.developer.1992@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@types/lodash": "^4.14.92",
-    "@types/string-template": "^1.0.2",
-    "lodash": "^4.13.1",
+    "lodash": "^4.17.11",
     "read-file": "^0.2.0",
     "string-template": "^1.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.92",
+    "@types/string-template": "^1.0.2",
     "@types/chai": "^4.1.0",
     "@types/mocha": "^2.2.46",
     "chai": "^3.5.0",
